@@ -1,0 +1,5 @@
+host = 'postgres_db'
+port = '5432'
+username = 'show'
+password = '1592'
+database = 'dbtest'
