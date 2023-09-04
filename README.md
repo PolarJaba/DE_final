@@ -43,5 +43,24 @@
 
 <b>Структура проекта</b>
 
+![image](https://github.com/PolarJaba/DE_final/blob/main/version1/figs/structure.PNG)
 
+<i>Прим. разделы figs и results не используются для работы docker-compose и необходимы только для демонстрации проекта</i>
 
+<b>Результаты</b>
+
+Получены 3 слоя БД: raw, core, mart:
+
+![image](https://github.com/PolarJaba/DE_final/blob/main/version1/figs/er.PNG)
+
+Витрина данных содержит информацию о процентном соотношении поездок такси с различным количеством пассажиров по датам:
+
+![image](https://github.com/PolarJaba/DE_final/blob/main/version1/figs/data_mart_fig.PNG)
+
+<b>Попытка ответа на дополнительный вопрос</b>
+
+Скрипт [data_analysis](https://github.com/PolarJaba/DE_final/blob/main/version1/app/scripts/data_analysis.py) (не инициализируется docker-compose) содержит программу для построения графика рассеяния, отвечающего на вопрос "Как количество пассажиров и дальность поездки влияют на чаевые?".
+
+Получен график:
+
+![image](https://github.com/PolarJaba/DE_final/blob/main/version1/app/scripts/scatter_plot_1-2.png)
