@@ -76,4 +76,68 @@ with connection.cursor() as cur:
     cur.close()
 
 print('Создание витрины данных завершено')
+print('Начинается создание витрины с данными о максимальной и минимальной стоимостях поездок')
+
+with connection.cursor() as cur:
+    table_query = ("CREATE TABLE IF NOT EXISTS final.cost_trip_datamart( "
+                   "\"date\" TIMESTAMP, "
+                   "max_cost_trip_0p FLOAT, "
+                   "min_cost_trip_0p FLOAT, "
+                   "max_cost_trip_1p FLOAT, "
+                   "min_cost_trip_1p FLOAT, "
+                   "max_cost_trip_2p FLOAT, "
+                   "min_cost_trip_2p FLOAT, "
+                   "max_cost_trip_3p FLOAT, "
+                   "min_cost_trip_3p FLOAT, "
+                   "max_cost_trip_4p_plus FLOAT, "
+                   " min_cost_trip_4p_plus FLOAT);")
+    cur.execute(table_query)
+    query = ("WITH costs_0p_t AS ( "
+             "SELECT date_trunc('day', cd.tpep_dropoff_datetime) AS \"date\", MAX(total_amount) AS max_cost_trip_0p, "
+             "MIN(total_amount) AS min_cost_trip_0p "
+             "FROM final.core_data cd "
+             "WHERE passengers_count = 0 "
+             "GROUP BY date_trunc('day', cd.tpep_dropoff_datetime)), "
+             "costs_1p_t AS ( "
+             "SELECT date_trunc('day', cd.tpep_dropoff_datetime) AS \"date\", MAX(total_amount) AS max_cost_trip_1p, "
+             "MIN(total_amount) AS min_cost_trip_1p "
+             "FROM final.core_data cd "
+             "WHERE passengers_count = 1 "
+             "GROUP BY date_trunc('day', cd.tpep_dropoff_datetime)), "
+             "costs_2p_t AS ( "
+             "SELECT date_trunc('day', cd.tpep_dropoff_datetime) AS \"date\", MAX(total_amount) AS max_cost_trip_2p, "
+             "MIN(total_amount) AS min_cost_trip_2p "
+             "FROM final.core_data cd "
+             "WHERE passengers_count = 2 "
+             "GROUP BY date_trunc('day', cd.tpep_dropoff_datetime)), "
+             "costs_3p_t AS ( "
+             "SELECT date_trunc('day', cd.tpep_dropoff_datetime) AS \"date\", MAX(total_amount) AS max_cost_trip_3p, "
+             "MIN(total_amount) AS min_cost_trip_3p "
+             "FROM final.core_data cd "
+             "WHERE passengers_count = 3 "
+             "GROUP BY date_trunc('day', cd.tpep_dropoff_datetime)), "
+             "costs_4p_t AS ( "
+             "SELECT date_trunc('day', cd.tpep_dropoff_datetime) AS \"date\", MAX(total_amount) AS "
+             "max_cost_trip_4p_plus, MIN(total_amount) AS min_cost_trip_4p_plus "
+             "FROM final.core_data cd "
+             "WHERE passengers_count > 3 "
+             "GROUP BY date_trunc('day', cd.tpep_dropoff_datetime)) "
+             "INSERT INTO final.cost_trip_datamart (\"date\", max_cost_trip_0p, min_cost_trip_0p, "
+             "max_cost_trip_1p, min_cost_trip_1p, "
+             "max_cost_trip_2p, min_cost_trip_2p, max_cost_trip_3p, min_cost_trip_3p, "
+             "max_cost_trip_4p_plus, min_cost_trip_4p_plus) "
+             "SELECT all_d.\"date\", max_cost_trip_0p, min_cost_trip_0p, max_cost_trip_1p, min_cost_trip_1p, "
+             "max_cost_trip_2p, min_cost_trip_2p, max_cost_trip_3p, min_cost_trip_3p, "
+             "max_cost_trip_4p_plus, min_cost_trip_4p_plus "
+             "FROM (SELECT date_trunc('day', cd.tpep_dropoff_datetime) AS \"date\" "
+             "FROM final.core_data cd "
+             "GROUP BY date_trunc('day', cd.tpep_dropoff_datetime)) AS all_d "
+             "LEFT JOIN costs_0p_t c0 ON all_d.\"date\" = c0.\"date\" "
+             "LEFT JOIN costs_1p_t c1 ON all_d.\"date\" = c1.\"date\" "
+             "LEFT JOIN costs_2p_t c2 ON all_d.\"date\" = c2.\"date\" "
+             "LEFT JOIN costs_3p_t c3 ON all_d.\"date\" = c3.\"date\" "
+             "LEFT JOIN costs_4p_t c4 ON all_d.\"date\" = c4.\"date\";")
+    cur.execute(query)
+    connection.commit()
+    cur.close()
 
