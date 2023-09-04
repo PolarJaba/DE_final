@@ -49,13 +49,27 @@
 
 <b>Результаты</b>
 
-Получены 3 слоя БД: raw, core, mart:
+Получены 3 слоя БД: 
 
-![image](https://github.com/PolarJaba/DE_final/blob/main/version1/figs/er.PNG)
+RAW:
+
+![image](https://github.com/PolarJaba/DE_final/blob/main/version1/figs/er_raw.PNG)
+
+CORE: 
+
+![image](https://github.com/PolarJaba/DE_final/blob/main/version1/figs/er_core.PNG)
+
+MART:
+
+![image](https://github.com/PolarJaba/DE_final/blob/main/version1/figs/er_mart.PNG)
 
 Витрина данных содержит информацию о процентном соотношении поездок такси с различным количеством пассажиров по датам:
 
 ![image](https://github.com/PolarJaba/DE_final/blob/main/version1/figs/data_mart.PNG)
+
+Также составлена витрина для получения информации о минимальной и максимальной стоимости поездки за день:
+
+![image](https://github.com/PolarJaba/DE_final/blob/main/version1/figs/min_max_cost_dm.PNG)
 
 <b>Попытка ответа на дополнительный вопрос</b>
 
