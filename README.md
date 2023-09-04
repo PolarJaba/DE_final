@@ -55,7 +55,7 @@
 
 Витрина данных содержит информацию о процентном соотношении поездок такси с различным количеством пассажиров по датам:
 
-![image](https://github.com/PolarJaba/DE_final/blob/main/version1/figs/data_mart_fig.PNG)
+![image](https://github.com/PolarJaba/DE_final/blob/main/version1/figs/data_mart.PNG)
 
 <b>Попытка ответа на дополнительный вопрос</b>
 
